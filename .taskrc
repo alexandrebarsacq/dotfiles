@@ -1,0 +1,39 @@
+# [Created by task 2.5.1 12/9/2019 10:01:06]
+# Taskwarrior program configuration file.
+# For more documentation, see http://taskwarrior.org or try 'man task', 'man task-color',
+# 'man task-sync' or 'man taskrc'
+
+# Here is an example of entries that use the default, override and blank values
+#   variable=foo   -- By specifying a value, this overrides the default
+#   variable=      -- By specifying no value, this means no default
+#   #variable=foo  -- By commenting out the line, or deleting it, this uses the default
+
+# Use the command 'task show' to see all defaults and overrides
+
+# Files
+data.location=~/.task
+# Make searches case insensitive, personal preference
+search.case.sensitive=no
+# Indicate the active task in reports
+active.indicator=>
+# Color theme (uncomment one to use)
+#include /usr/share/taskwarrior/light-16.theme
+#include /usr/share/taskwarrior/light-256.theme
+#include /usr/share/taskwarrior/dark-16.theme
+#include /usr/share/taskwarrior/dark-256.theme
+#include /usr/share/taskwarrior/dark-red-256.theme
+#include /usr/share/taskwarrior/dark-green-256.theme
+#include /usr/share/taskwarrior/dark-blue-256.theme
+#include /usr/share/taskwarrior/dark-violets-256.theme
+#include /usr/share/taskwarrior/dark-yellow-green.theme
+#include /usr/share/taskwarrior/dark-gray-256.theme
+#include /usr/share/taskwarrior/dark-gray-blue-256.theme
+#include /usr/share/taskwarrior/solarized-dark-256.theme
+#include /usr/share/taskwarrior/solarized-light-256.theme
+#include /usr/share/taskwarrior/no-color.theme
+
+taskd.server=freecinc.com:53589
+taskd.key=\/home\/alexandre\/.task\/freecinc_820c7d1c.key.pem
+taskd.certificate=\/home\/alexandre\/.task\/freecinc_820c7d1c.cert.pem
+taskd.ca=\/home\/alexandre\/.task\/freecinc_820c7d1c.ca.pem
+taskd.credentials=FreeCinc\/freecinc_820c7d1c\/b3c5d3d7-2d33-443b-b28e-45926a0d3814
