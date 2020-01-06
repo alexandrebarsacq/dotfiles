@@ -112,7 +112,7 @@ alias config='/usr/bin/git --git-dir=/home/alexandre/.cfg/ --work-tree=/home/ale
 
 export EDITOR=/usr/bin/nvim
 
-#FZF related stuff. Implies that fzf was installed 
+#FZF related stuff. Implies that fzf and rg were installed 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='rg --files'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
