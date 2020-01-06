@@ -1,13 +1,11 @@
 #My own rc
 
-export EDITOR=/usr/bin/nvim
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="/home/alexandre/.oh-my-zsh"
-
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -73,7 +71,8 @@ ZSH_THEME="mytheme"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git taskwarrior fzf)
+# Note : zsh-autosuggestions requires further install see https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md#oh-my-zsh
+plugins=(git taskwarrior fzf zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -108,7 +107,12 @@ alias ohmyzsh="nvim ~/.oh-my-zsh"
 export XDG_CONFIG_HOME="$HOME/.config"
 alias tmux='tmux -f "$XDG_CONFIG_HOME"/tmux/tmux.conf'
 
-
-
 #manage dotfiles with git
 alias config='/usr/bin/git --git-dir=/home/alexandre/.cfg/ --work-tree=/home/alexandre'
+
+export EDITOR=/usr/bin/nvim
+
+#FZF related stuff. Implies that fzf was installed 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_COMMAND='rg --files'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
