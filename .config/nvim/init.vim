@@ -19,6 +19,8 @@ call plug#begin('~/.vim/bundle')
     Plug 'majutsushi/tagbar'
     Plug 'scrooloose/nerdtree'
     Plug 'Shougo/deoplete.nvim', { 'do': 'UpdateRemotePlugins' }
+	Plug 'vimwiki/vimwiki'
+    Plug 'tbabej/taskwiki', {'branch': 'develop'}
 call plug#end()
 
 "Autoinstall plugin manager if not present
@@ -84,7 +86,7 @@ set hidden
 set fillchars=vert:│
 "allow use of mouse
 set mouse=a 
-
+filetype plugin on
 "Enable indent plugin
 filetype plugin indent on
 "Use 4 spaces per tabs"
@@ -103,7 +105,8 @@ set clipboard=unnamed
 " Always show side bar for errors so no blinking happens
 set signcolumn=yes
 
-
+set nocompatible
+syntax on
 "-------------------------------------------------------
 "Autosave Behavior
 "-------------------------------------------------------
@@ -120,52 +123,59 @@ set noswapfile
 "MAPPINGS
 "-------------------------------------------------------
 
+"Space bar as leader
+"map <Space> <Leader>
+let mapleader = "\<Space>"
+
+nnoremap ² `
+nnoremap ` ²
+
 "paste on line below with ALT-p
 nmap <A-p> :pu<CR>
-
+"
 noremap <C-l> <C-w>l
 noremap <C-h> <C-w>h
 noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
-
-" Common fixes
-nnoremap <silent>gb :BB<Cr>
-nnoremap <silent>gB :BF<Cr>
-
-" NERDTree
-noremap <silent><A-n> <Esc>:NERDTreeToggle<CR>
-tnoremap <silent><A-n> <C-\><C-n>:NERDTreeToggle<CR>
-
-" Tagbar
-noremap <silent><A-b> <Esc>:TagbarToggle<CR>
-tnoremap <silent><A-b> <C-\><C-n>:TagbarToggle<CR>
-
-"Language client
-nnoremap <silent><F5> :call LanguageClient_contextMenu()<CR>
-
-"Search workspace symbols : ALT-w
-nnoremap <silent><A-w> :call LanguageClient_workspace_symbol()<CR>
-
-"Search document symbols : ALT-d
-nnoremap <silent><A-d> :call LanguageClient_textDocument_documentSymbol()<CR>
-"Go to definition : gd
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-"Go to caller : gc
-nnoremap <silent> gc :call LanguageClient#cquery_callers()<CR>
-nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-nnoremap <silent> lr :call LanguageClient#textDocument_references()<CR>
-nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-
-"Search buffers with FZF
-nmap ; :Buffers<CR>
-
-"Search Files with FZF
-nmap , :Files<CR>
+"
+"" Common fixes
+"nnoremap <silent>gb :BB<Cr>
+"nnoremap <silent>gB :BF<Cr>
+"
+"" NERDTree
+"noremap <silent><A-n> <Esc>:NERDTreeToggle<CR>
+"tnoremap <silent><A-n> <C-\><C-n>:NERDTreeToggle<CR>
+"
+"" Tagbar
+"noremap <silent><A-b> <Esc>:TagbarToggle<CR>
+"tnoremap <silent><A-b> <C-\><C-n>:TagbarToggle<CR>
+"
+""Language client
+""nnoremap <silent><F5> :call LanguageClient_contextMenu()<CR>
+"
+""Search workspace symbols : ALT-w
+"nnoremap <silent><A-w> :call LanguageClient_workspace_symbol()<CR>
+"
+""Search document symbols : ALT-d
+"nnoremap <silent><A-d> :call LanguageClient_textDocument_documentSymbol()<CR>
+""Go to definition : gd
+"nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+""Go to caller : gc
+""nnoremap <silent> gc :call LanguageClient#cquery_callers()<CR>
+""nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+""nnoremap <silent> lr :call LanguageClient#textDocument_references()<CR>
+""nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+"
+""Search buffers with FZF
+""nmap ; :Buffers<CR>
+"
+""Search Files with FZF
+"nmap , :Files<CR>
 
 "Delete buffer with plugin buffkill (does not delete splits)
 map <C-c> :BD<cr>
 
 "Save filename to cliboard
-nmap <silent> <F8> :let @+ = expand("%:p")<CR>
+nmap <ilent> <F8> :let @+ = expand("%:p")<CR>
 
-
+let g:vimwiki_list = [{'syntax': 'markdown', 'ext': '.md'}]
