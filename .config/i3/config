@@ -172,9 +172,6 @@ bar {
 
 ####### below is my stufff
 ##########################""
-#start pasystray : used for sound tray icon
-exec --no-startup-id usr/bin/pasystray &
-
 
 #remove windows borders : 
 for_window [class=".*"] border pixel 0
@@ -187,5 +184,23 @@ bindsym Mod1+Tab workspace back_and_forth
 
 bindsym Control+Print exec --no-startup-id gnome-screenshot -i
 
+#Scratchpad management with W key
+bindsym $mod+Shift+w move scratchpad
+bindsym $mod+w scratchpad show
+
+#Program assignment to workspaces
+for_window [title="scratchpad"] move scratchpad # windows titled scrachpad are scratchpads
+
 #start compton : 
 exec --no-startup-id compton --config ~/.config/compton/compton.conf &
+#start pasystray : used for sound tray icon
+exec --no-startup-id usr/bin/pasystray &
+
+#Programs at startup
+
+#Create a scratchpad (accessible win $mod+w) with vimwiki started
+#exec --no-startup-id i3-msg 'workspace 9; exec --no-startup-id alacritty -t scratchpadterm --command nvim -c "VimwikiIndex";workspace 1'
+
+exec --no-startup-id ~/.config/i3/launchprograms.sh
+
+#exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id firefox'
