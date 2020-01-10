@@ -19,8 +19,13 @@ call plug#begin('~/.vim/bundle')
     Plug 'majutsushi/tagbar'
     Plug 'scrooloose/nerdtree'
     Plug 'Shougo/deoplete.nvim', { 'do': 'UpdateRemotePlugins' }
-	Plug 'vimwiki/vimwiki'
+	Plug 'vim-scripts/argtextobj.vim'
+    Plug 'vimwiki/vimwiki'
     Plug 'tbabej/taskwiki', {'branch': 'develop'}
+    Plug 'tpope/vim-fugitive'
+    Plug 'tpope/vim-commentary'
+    Plug 'tpope/vim-surround'
+
 call plug#end()
 
 "Autoinstall plugin manager if not present
@@ -79,6 +84,15 @@ set formatexpr=LanguageClient_textDocument_rangeFormatting()
 :set guicursor=
 :autocmd OptionSet guicursor noautocmd set guicursor=
 
+
+
+"always show status line, tab line only if needed
+setglobal laststatus=2
+setglobal showtabline=1
+
+
+"Keep one line above cursor at all time
+set scrolloff=1
 "Show line number
 set number
 "Allow hidden buffers
