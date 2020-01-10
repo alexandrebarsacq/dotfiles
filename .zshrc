@@ -102,6 +102,7 @@ source $ZSH/oh-my-zsh.sh
 alias zshconfig="nvim ~/.zshrc"
 alias ohmyzsh="nvim ~/.oh-my-zsh"
 
+setopt hist_ignore_dups # Don't save multiple instances of a command when run in succession
 
 #work around tmux not using .config dir
 export XDG_CONFIG_HOME="$HOME/.config"
