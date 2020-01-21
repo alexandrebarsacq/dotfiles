@@ -54,39 +54,10 @@ endif
 "-------------------------------------------------------
 "Configuration of plugins
 "-------------------------------------------------------
-
-
-"TODO : disabled since per documentation it's reenable after calling 
-" filetype indent on
-" make sure that no regression then delete
-"filetype off
-
-"let g:LanguageClient_serverCommands = {
-"\ 'c': ['/usr/local/bin/cquery/bin/cquery', '--log-file=/tmp/cq.log'],
-"\ 'cpp':['/usr/local/bin/cquery/bin/cquery', '--log-file=/tmp/cq.log']
-"\ }
-" let g:LanguageClient_rootMarkers = {
-"\ 'c': ['compile_commands.json'],
-"\ }
-" " Use an absolute configuration path if you want system-wide settings
-"let g:LanguageClient_loadSettings = 1
-"let g:LanguageClient_settingsPath = '/home/alexandre/.config/nvim/settings.json'
-"" Automatically start language servers.
-"let g:LanguageClient_autoStart = 1
-"" Add language client logging for debug
-""let g:LanguageClient_loggingFile="/tmp/languageclientlog.txt"
-""let g:LanguageClient_loggingLevel='DEBUG'
-"
 "let g:tagbar_ctags_bin = "/usr/bin/ctags"    
 "let g:tagbar_sort = 0
 "let g:tagbar_compact = 1
-"
-" Deoplete.nvim
-"set completeopt-=preview
 
-"Line below is commented cauze not necessary because deoplete is installed
-"set completefunc=LanguageClient#complete
-"set formatexpr=LanguageClient_textDocument_rangeFormatting()
 
 " Workaround some broken plugins which set guicursor indiscriminately.
 " Taken from : https://github.com/neovim/neovim/wiki/FAQ
