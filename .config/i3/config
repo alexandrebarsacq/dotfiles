@@ -182,7 +182,17 @@ gaps outer 0
 #Alt tab simulator : 
 bindsym Mod1+Tab workspace back_and_forth
 
+#take a screenshot
 bindsym Control+Print exec --no-startup-id gnome-screenshot -i
+
+#Brightness control for laptop dell 7490
+bindsym XF86MonBrightnessDown exec "xbacklight -dec 10"
+bindsym XF86MonBrightnessUp exec "xbacklight -inc 10"
+
+#Sound control for laptop dell 7490
+bindsym XF86AudioRaiseVolume exec "amixer set Master 2%+"
+bindsym XF86AudioLowerVolume exec "amixer set Master 2%-"
+bindsym XF86AudioMute exec "amixer set Master toggle"
 
 #Scratchpad management with W key
 bindsym $mod+Shift+w move scratchpad
