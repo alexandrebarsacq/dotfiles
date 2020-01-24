@@ -210,14 +210,14 @@ noremap <silent><leader>n <Esc>:NERDTreeToggle<CR>
 tnoremap <silent><leader>n <C-\><C-n>:NERDTreeToggle<CR>
 "
 "" Tagbar
-noremap <silent><leader>b <Esc>:TagbarToggle<CR>
-tnoremap <silent><leader>b <C-\><C-n>:TagbarToggle<CR>
+noremap <silent><leader>t <Esc>:TagbarToggle<CR>
+tnoremap <silent><leader>t <C-\><C-n>:TagbarToggle<CR>
 
 ""Search buffers with FZF
-""nmap ; :Buffers<CR>
+nmap <leader>, :Buffers<CR>
 "
 ""Search Files with FZF
-"nmap , :Files<CR>
+nmap <leader>f :Files<CR>
 
 "Delete buffer with plugin buffkill (does not delete splits)
 map <C-c> :BD<cr>
