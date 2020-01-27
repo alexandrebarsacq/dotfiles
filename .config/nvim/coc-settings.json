@@ -1,0 +1,14 @@
+{
+  "coc.preferences.formatOnSaveFiletypes": [
+    "go",
+    "javascript",
+    "typescript",
+    "json",
+    "jsonc"
+  ],
+
+  "emmet.includeLanguages": {
+    "vue-html": "html",
+    "vue": "html"
+  }
+}
