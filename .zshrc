@@ -1,9 +1,12 @@
 #My own rc
 
+#uncomment to profile startup (and see bottom of file)
+# zmodload zsh/zprof
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+export FZF_BASE="/home/linuxbrew/.linuxbew/opt/fzf/bin"
 # Path to your oh-my-zsh installation.
 export ZSH="/home/alexandre/.oh-my-zsh"
 # Set name of the theme to load --- if set to "random", it will
@@ -17,7 +20,7 @@ ZSH_THEME="mytheme"
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
 # If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+# ZSH_THEME_RANDOM_CANDIDATES=(" "robbyrussell" "agnoster" )
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -72,7 +75,7 @@ ZSH_THEME="mytheme"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 # Note : zsh-autosuggestions requires further install see https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md#oh-my-zsh
-plugins=(git taskwarrior fzf zsh-autosuggestions)
+plugins=(git taskwarrior  zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -113,7 +116,41 @@ alias config='/usr/bin/git --git-dir=/home/alexandre/.cfg/ --work-tree=/home/ale
 
 export EDITOR=/usr/bin/nvim
 
+
+
 #FZF related stuff. Implies that fzf and rg were installed 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='rg --files'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+#Functions for brightness control in pure tty on dell 7490
+increase_backlight() {
+    xbacklight -d :0 -inc 10
+}
+zle -N increase_backlight_widget increase_backlight
+bindkey "^[[24~" increase_backlight_widget
+
+decrease_backlight() {
+    xbacklight -d :0 -dec 10
+}
+zle -N decrease_backlight_widget decrease_backlight
+bindkey "^[[23~" decrease_backlight_widget
+
+#Lazy NVM loading : otherwise zsh is slow to start 
+declare -a NODE_GLOBALS=(`find ~/.config/nvm/versions/node -maxdepth 3 -type l -wholename '*/bin/*' | xargs -n1 basename | sort | uniq`)
+
+NODE_GLOBALS+=("node")
+NODE_GLOBALS+=("nvm")
+
+load_nvm () {
+    export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+}
+
+for cmd in "${NODE_GLOBALS[@]}"; do
+    eval "${cmd}(){ unset -f ${NODE_GLOBALS}; load_nvm; ${cmd} \$@ }"
+done
+
+
+#uncomment for profiling startup time of zsh (and see top of file)
+# zprof 
