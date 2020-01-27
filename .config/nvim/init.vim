@@ -44,12 +44,10 @@ call plug#begin('~/.vim/bundle')
     "Vue stuff 
     "Plug 'posva/vim-vue'
     "Snippet collection. Used with coc 
-    "Plug 'honza/vim-snippets'
+    Plug 'honza/vim-snippets'
     "I want an IDE really
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-    "better than snippets for html
-    "Plug 'mattn/emmet-vim'
 call plug#end()
 
 "Autoinstall plugin manager if not present
