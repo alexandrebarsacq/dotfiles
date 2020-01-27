@@ -8,8 +8,10 @@ call plug#begin('~/.vim/bundle')
     " Fzf fuzy find : install via linuxbrew
     Plug '/home/linuxbrew/.linuxbrew/opt/fzf'
     Plug 'junegunn/fzf.vim'
+
+    "color picker
+    Plug 'DougBeney/pickachu'
     " Color scheme
-    Plug 'morhetz/gruvbox'
     Plug 'mhartington/oceanic-next'
     "Kill tabs but keep my damn splits 
     Plug 'qpkorr/vim-bufkill'
@@ -24,23 +26,30 @@ call plug#begin('~/.vim/bundle')
     "Vim wiki and taskwarrior integration
     Plug 'vimwiki/vimwiki'
     Plug 'tbabej/taskwiki'
+
+    Plug 'tpope/vim-unimpaired'
     "Git integration
     Plug 'tpope/vim-fugitive'
     "Comment lines
     Plug 'tpope/vim-commentary'
     "Manipulate surrounding ( [ { etc
     Plug 'tpope/vim-surround'
-
+    "Smooth scrolling with crtl+u/d etc
     Plug 'psliwka/vim-smoothie'
 
     "Insert closing parenthesis,bracket,etc automagically
     Plug 'jiangmiao/auto-pairs'
     "Javascript and rrelated syntax
-    Plug 'yuezk/vim-js'
-    Plug 'MaxMEllon/vim-jsx-pretty'
-
+    Plug 'pangloss/vim-javascript'
+    "Vue stuff 
+    "Plug 'posva/vim-vue'
+    "Snippet collection. Used with coc 
+    "Plug 'honza/vim-snippets'
     "I want an IDE really
-    Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': 'CocInstall coc-tsserver coc-eslint coc-json coc-prettier coc-css'}
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+    "better than snippets for html
+    "Plug 'mattn/emmet-vim'
 call plug#end()
 
 "Autoinstall plugin manager if not present
@@ -51,7 +60,18 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-"-------------------------------------------------------
+
+"Coc plugins : 
+let g:coc_global_extensions = [
+            \ 'coc-tsserver',
+            \ 'coc-prettier', 
+            \ 'coc-json', 
+            \ 'coc-eslint', 
+            \ 'coc-css', 
+            \ 'coc-emmet',
+            \ 'coc-snippets']
+
+""-------------------------------------------------------
 "Configuration of plugins
 "-------------------------------------------------------
 "let g:tagbar_ctags_bin = "/usr/bin/ctags"    
@@ -178,10 +198,18 @@ endfunction
 " Highlight symbol under cursor on CursorHold !!!!
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-
 "easier for azerty
 nnoremap ² `
 nnoremap ` ²
+
+"more azerty : because brackets are too hard to get
+"we use ç for [ and à for ]
+nmap ç [
+nmap à ]
+omap ç [
+omap à ]
+xmap ç [
+xmap à ]
 
 "paste on line below with ALT-p
 nmap <A-p> :pu<CR>
