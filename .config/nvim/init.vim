@@ -27,22 +27,29 @@ call plug#begin('~/.vim/bundle')
     Plug 'vimwiki/vimwiki'
     Plug 'tbabej/taskwiki'
 
+    "Additional mapping
     Plug 'tpope/vim-unimpaired'
-    "Git integration
-    Plug 'tpope/vim-fugitive'
+
     "Comment lines
     Plug 'tpope/vim-commentary'
     "Manipulate surrounding ( [ { etc
     Plug 'tpope/vim-surround'
     "Smooth scrolling with crtl+u/d etc
     Plug 'psliwka/vim-smoothie'
+    "dot works for more stuff
+    Plug 'tpope/vim-repeat'
+
+    "Git integration
+    Plug 'tpope/vim-fugitive'
+    "Git blame in popup
+    Plug 'rhysd/git-messenger.vim' " :GitMessenger
 
     "Insert closing parenthesis,bracket,etc automagically
     Plug 'jiangmiao/auto-pairs'
     "Javascript and rrelated syntax
     Plug 'pangloss/vim-javascript'
     "Vue stuff 
-    "Plug 'posva/vim-vue'
+    Plug 'posva/vim-vue'
     "Snippet collection. Used with coc 
     Plug 'honza/vim-snippets'
     "I want an IDE really
@@ -72,11 +79,6 @@ let g:coc_global_extensions = [
 ""-------------------------------------------------------
 "Configuration of plugins
 "-------------------------------------------------------
-"let g:tagbar_ctags_bin = "/usr/bin/ctags"    
-"let g:tagbar_sort = 0
-"let g:tagbar_compact = 1
-
-
 " Workaround some broken plugins which set guicursor indiscriminately.
 " Taken from : https://github.com/neovim/neovim/wiki/FAQ
 :set guicursor=
@@ -87,7 +89,7 @@ setglobal laststatus=2
 setglobal showtabline=1
 
 "Keep one line above cursor at all time
-set scrolloff=1
+set scrolloff=2
 
 "Allow hidden buffers
 set hidden 
@@ -211,7 +213,7 @@ xmap à ]
 
 "paste on line below with ALT-p
 nmap <A-p> :pu<CR>
-"
+"Move between splits with CTRL+hjkl
 noremap <C-l> <C-w>l
 noremap <C-h> <C-w>h
 noremap <C-j> <C-w>j
@@ -250,6 +252,9 @@ map <C-c> :BD<cr>
 " Allows you to save files you opened without write permissions via sudo
 cmap w!! w !sudo tee %
 
+
+imap jk <Esc>
+imap kj <Esc>
 "Save filename to cliboard
 nmap <silent> <F8> :let @+ = expand("%:p")<CR>
 

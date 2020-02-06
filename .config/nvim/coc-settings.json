@@ -4,7 +4,8 @@
     "javascript",
     "typescript",
     "json",
-    "jsonc"
+    "jsonc",
+    "vue"
   ],
 
   "emmet.includeLanguages": {
