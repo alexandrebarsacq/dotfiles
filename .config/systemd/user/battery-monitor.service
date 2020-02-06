@@ -1,0 +1,13 @@
+[Unit]
+Description=Battery monitor
+
+[Install]
+WantedBy = multi-user.target
+
+[Service]
+Environment="DISPLAY=:0"
+Environment="XAUTHORITY=/home/alexandre/.Xauthority"
+Type=oneshot
+RemainAfterExit=no
+TimeoutSec=0
+ExecStart=/home/alexandre/.config/systemd/user/battery-monitor.sh
