@@ -107,12 +107,15 @@ alias ohmyzsh="nvim ~/.oh-my-zsh"
 
 setopt hist_ignore_dups # Don't save multiple instances of a command when run in succession
 
+setopt complete_aliases #needed for "config" alias
+
 #work around tmux not using .config dir
 export XDG_CONFIG_HOME="$HOME/.config"
 alias tmux='tmux -f "$XDG_CONFIG_HOME"/tmux/tmux.conf'
 
 #manage dotfiles with git
 alias config='/usr/bin/git --git-dir=/home/alexandre/.cfg/ --work-tree=/home/alexandre'
+compdef config='git'
 
 export EDITOR=/usr/bin/nvim
 
@@ -150,6 +153,8 @@ load_nvm () {
 for cmd in "${NODE_GLOBALS[@]}"; do
     eval "${cmd}(){ unset -f ${NODE_GLOBALS}; load_nvm; ${cmd} \$@ }"
 done
+
+
 
 
 #uncomment for profiling startup time of zsh (and see top of file)
