@@ -224,3 +224,16 @@ exec --no-startup-id usr/bin/pasystray &
 exec --no-startup-id ~/.config/i3/launchprograms.sh
 
 #exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id firefox'
+
+#more stuff in popup
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
+
+# Moving workspaces between screens 
+bindsym $mod+p move workspace to output down
+
+# Set program location
+set $alacritty_colorscheme /home/alexandre/.local/bin/alacritty-colorscheme  
+# Toggle between light and dark colorscheme
+bindsym $mod+F8 exec $alacritty_colorscheme -t  /home/alexandre/AUR/base16-alacritty/colors/base16-oceanicnext-256.yml /home/alexandre/AUR/base16-alacritty/colors/base16-gruvbox-light-soft-256.yml
+
