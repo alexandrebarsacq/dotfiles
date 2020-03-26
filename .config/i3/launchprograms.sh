@@ -22,7 +22,7 @@ apps=(
  "/usr/bin/alacritty"
  #Create a scratchpad (accessible win $mod+w) with vimwiki started. 
  #This terminal will be put in scratchpad because of config rule on title "scratchpadterm"
- "/usr/bin/alacritty -t scratchpadterm --command nvim -c VimwikiIndex"
+ "/usr/bin/alacritty -t scratchpadterm --command nvim /home/alexandre/vimwiki/index.md"
 )
 
 # Which workspace to assign your wanted App :
