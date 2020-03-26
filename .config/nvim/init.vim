@@ -1,18 +1,23 @@
 " My neovim config
 
+" reminder : tab gives doc
 "-------------------------------------------------------
 "Plugin management
 "-------------------------------------------------------
 
 call plug#begin('~/.vim/bundle')
     " Fzf fuzy find : install via linuxbrew
-    Plug '/home/linuxbrew/.linuxbrew/opt/fzf'
+    " Plug '/home/linuxbrew/.linuxbrew/opt/fzf'
+    " todo : clear up this
+   Plug 'junegunn/fzf', { 'do': './install --bin' }
     Plug 'junegunn/fzf.vim'
 
     "color picker
     Plug 'DougBeney/pickachu'
     " Color scheme
     Plug 'mhartington/oceanic-next'
+    Plug 'morhetz/gruvbox'
+    
     "Kill tabs but keep my damn splits 
     Plug 'qpkorr/vim-bufkill'
     "Focus event fix
@@ -99,13 +104,14 @@ set mouse=a
 filetype plugin on
 "Enable indent plugin
 filetype plugin indent on
-"Use 4 spaces per tabs"
-" show existing tab with 4 spaces width
-set tabstop=4
-" when indenting with '>', use 4 spaces width
-set shiftwidth=4
-" On pressing tab, insert 4 spaces
+"Use x spaces per tabs"
+" show existing tab with x spaces width
+set tabstop=2
+" when indenting with '>', use x spaces width
+set shiftwidth=2
+" On pressing tab, insert x spaces
 set expandtab
+
 "Searches ignore case unless an upercase is typed
 set ignorecase
 set smartcase
@@ -256,6 +262,32 @@ cmap w!! w !sudo tee %
 imap jk <Esc>
 imap kj <Esc>
 "Save filename to cliboard
-nmap <silent> <F8> :let @+ = expand("%:p")<CR>
+nmap <silent> <F9> :let @+ = expand("%:p")<CR>
 
 let g:vimwiki_list = [{'syntax': 'markdown', 'ext': '.md'}]
+
+function! ToggleVerbose()
+    if !&verbose
+        set verbosefile=~/.log/vim/verbose.log
+        set verbose=15
+    else
+        set verbose=0
+        set verbosefile=
+    endif
+endfunction
+
+"fzf in floating windows
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+
+
+function! SwitchColorScheme()
+  if g:colors_name == "gruvbox"
+    colorscheme OceanicNext
+    set background=dark
+  else
+    colorscheme gruvbox
+    set background=light
+  endif
+endfunction
+
+map <silent> <F8> :call SwitchColorScheme()<CR>
