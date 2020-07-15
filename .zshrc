@@ -154,8 +154,17 @@ for cmd in "${NODE_GLOBALS[@]}"; do
     eval "${cmd}(){ unset -f ${NODE_GLOBALS}; load_nvm; ${cmd} \$@ }"
 done
 
+#Use the "z" program
+[[ -r "/usr/share/z/z.sh" ]] && source /usr/share/z/z.sh
+
+#Python exports
+export  PATH="$PATH:/home/alexandre/.local/bin" 
+
+#bat (cat replacement) theme selection
+export BAT_THEME="OneHalfDark"
 
 
-
+#Kolibree dev
+source ~/Documents/PROJECTS/KOLIBREE/code/set_kolibree_env
 #uncomment for profiling startup time of zsh (and see top of file)
 # zprof 
