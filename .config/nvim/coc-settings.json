@@ -20,5 +20,7 @@
   "vetur.format.defaultFormatter.stylus": "stylus-supremacy",
   "vetur.format.defaultFormatter.js": "prettier",
   "vetur.format.defaultFormatter.ts": "prettier",
-  "vetur.format.enable": true
+  "vetur.format.enable": true,
+
+  "clangd.semanticHighlighting": true
 }

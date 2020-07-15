@@ -15,6 +15,7 @@ call plug#begin('~/.vim/bundle')
     " Color scheme
     Plug 'mhartington/oceanic-next'
     Plug 'morhetz/gruvbox'
+    Plug 'endel/vim-github-colorscheme'
     
     "Kill tabs but keep my damn splits 
     Plug 'qpkorr/vim-bufkill'
@@ -65,6 +66,8 @@ call plug#begin('~/.vim/bundle')
     Plug 'jackguo380/vim-lsp-cxx-highlight'
 
     Plug 'metakirby5/codi.vim'
+
+    Plug 'tpope/vim-dispatch'
 
 
 call plug#end()
@@ -158,7 +161,6 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 "-------------------------------------------------------
 " Enable true color support
 set termguicolors
-"colorscheme gruvbox
 set background=dark
 colorscheme OceanicNext
 "split windows below
@@ -378,45 +380,51 @@ function FormatFile()
   pyf /usr/share/clang/clang-format.py
 endfunction
 
-" function! SwitchColorScheme()
-"   if g:colors_name == "gruvbox"
-"     colorscheme OceanicNext
-"     set background=dark
-"     let $BAT_THEME = 'OneHalfDark'
-"   else
-"     colorscheme gruvbox
-"     set background=light
-"     hi LspCxxHlGroupMemberVariable ctermfg=Green guifg=#008700 cterm=none gui=none
-"     let $BAT_THEME = 'OneHalfLight'
-"   endif
-" endfunction
+function! SwitchColorScheme()
+  " if g:colors_name == "gruvbox"
+  if g:colors_name == "github"
+    colorscheme OceanicNext
+    set background=dark
+    hi debugPC term=reverse ctermbg=darkblue guibg=darkblue
+    hi debugBreakpoint term=reverse ctermbg=red guibg=red
+    let $BAT_THEME = 'OneHalfDark'
+  else
+    colorscheme github
+    set background=light
+    hi debugPC term=reverse ctermbg=lightblue guibg=lightblue
+    hi debugBreakpoint term=reverse ctermbg=red guibg=red
+    hi LspCxxHlGroupMemberVariable ctermfg=Green guifg=#008700 cterm=none gui=none
+    let $BAT_THEME = 'OneHalfLight'
+  endif
+endfunction
 
-" map <silent> <F8> :call SwitchColorScheme()<CR>
-
-
-set makeprg=./launchtest.sh
-
-
-
-
+map <silent> <F8> :call SwitchColorScheme()<CR>
 
 
-" function! s:list_buffers()
-"   redir => list
-"   silent ls
-"   redir END
-"   return split(list, "\n")
-" endfunction
 
-" function! s:delete_buffers(lines)
-"   execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
-" endfunction
 
-" command! FZFBD call fzf#run(fzf#wrap({
-"   \ 'source': s:list_buffers(),
-"   \ 'sink*': { lines -> s:delete_buffers(lines) },
-"   \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
-" \ }))
+hi debugPC term=reverse ctermbg=darkblue guibg=darkblue
+hi debugBreakpoint term=reverse ctermbg=red guibg=red
+
+
+
+
+function! s:list_buffers()
+  redir => list
+  silent ls
+  redir END
+  return split(list, "\n")
+endfunction
+
+function! s:delete_buffers(lines)
+  execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
+endfunction
+
+command! FZFBD call fzf#run(fzf#wrap({
+  \ 'source': s:list_buffers(),
+  \ 'sink*': { lines -> s:delete_buffers(lines) },
+  \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
+\ }))
 
 
 set makeprg=./launchtest.sh\ %
@@ -457,3 +465,17 @@ noremap <silent> <F12> :silent CocRestart<CR>
 "   autocmd!
 "   autocmd! FileType fzf call OnFZFOpen()
 " augroup END
+"
+"" CMake Parser : evite l'ouverture des fichiers buggés mais enleve tout saut
+"court meme les bons
+" Call stack entries
+" let &efm = ' %#%f:%l %#(%m)'
+" " Start of multi-line error
+" let &efm .= ',%E' . 'CMake Error at %f:%l (message):'
+" " End of multi-line error
+" let &efm .= ',%Z' . 'Call Stack (most recent call first):'
+" " Continuation is message
+" let &efm .= ',%C' . ' %m'
+
+" set errorformat+=%D%*\\a:\ Entering\ directory\ '%f'
+" set errorformat+=%X%*\\a:\ Leaving\ directory\ '%f'
