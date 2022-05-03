@@ -55,13 +55,6 @@ load {
         format = " %1min"
 }
 
-memory {
-        format = " %used"
-
-        threshold_degraded = "1G"
-        format_degraded = "MEMORY < %available"
-}
-
 volume master {
                    format = "♪ %volume"
                    format_muted = "♪: muted (%volume)"
