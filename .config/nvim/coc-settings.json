@@ -12,6 +12,7 @@
     "vue-html": "html",
     "vue": "html"
   },
+
   "vetur.format.defaultFormatter.html": "prettier",
   "vetur.format.defaultFormatter.css": "prettier",
   "vetur.format.defaultFormatter.postcss": "prettier",
@@ -22,5 +23,17 @@
   "vetur.format.defaultFormatter.ts": "prettier",
   "vetur.format.enable": true,
 
-  "clangd.semanticHighlighting": true
+  "clangd.semanticHighlighting": true,
+  "clangd.path": "/home/alexandre/.config/coc/extensions/coc-clangd-data/install/10.0.0/clangd_10.0.0/bin/clangd",
+
+  "languageserver": {
+    "cmake": {
+      "command": "cmake-language-server",
+      "filetypes": ["cmake"],
+      "rootPatterns": ["build/"],
+      "initializationOptions": {
+        "buildDirectory": "build"
+      }
+    }
+  }
 }
