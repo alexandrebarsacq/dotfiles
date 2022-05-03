@@ -29,7 +29,7 @@ call plug#begin('~/.vim/bundle')
     Plug 'vim-scripts/argtextobj.vim'
     "Vim wiki and taskwarrior integration
     Plug 'vimwiki/vimwiki'
-    Plug 'tbabej/taskwiki'
+    " Plug 'tbabej/taskwiki'
 
     "Additional mapping
     Plug 'tpope/vim-unimpaired'
@@ -69,6 +69,10 @@ call plug#begin('~/.vim/bundle')
 
     Plug 'tpope/vim-dispatch'
 
+    Plug 'antoinemadec/coc-fzf', {'branch': 'release'}
+
+    Plug 'justinmk/vim-sneak'
+
 
 call plug#end()
 
@@ -91,6 +95,7 @@ let g:coc_global_extensions = [
             \ 'coc-emmet',
             \ 'coc-snippets',
             \ 'coc-clangd',
+            \ 'coc-pyright',
             \ 'coc-rls']
 
 packadd termdebug
@@ -154,8 +159,6 @@ set nowritebackup
 " Highlight symbol under cursor on CursorHold !!!!
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-
-
 "-------------------------------------------------------
 "UI stuff
 "-------------------------------------------------------
@@ -184,7 +187,6 @@ augroup numbertoggle
 augroup END
 
 
-
 "use ripgrep
 if executable("rg")
     set grepprg=rg\ --vimgrep\ --no-heading
@@ -192,16 +194,6 @@ if executable("rg")
 endif
 
 let g:vimwiki_list = [{'syntax': 'markdown', 'ext': '.md'}]
-
-function! ToggleVerbose()
-    if !&verbose
-        set verbosefile=~/.log/vim/verbose.log
-        set verbose=15
-    else
-        set verbose=0
-        set verbosefile=
-    endif
-endfunction
 
 "fzf in floating windows
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
@@ -228,7 +220,7 @@ set noswapfile
 "map <Space> <Leader>
 let mapleader = "\<Space>"
 
-" Use tab for trigger completion with characters ahead and navigate.
+" Use tab to trigger completion with characters ahead and navigate.
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
@@ -302,18 +294,18 @@ nmap <A-p> :pu<CR>
     ":tnoremap <expr> <C-R> '<C-\><C-N>"'.nr2char(getchar()).'pi'
 
 "To use `ALT+{h,j,k,l}` to navigate windows from any mode: >
-    :tnoremap <A-h> <C-\><C-N><C-w>h
-    :tnoremap <A-j> <C-\><C-N><C-w>j
-    :tnoremap <A-k> <C-\><C-N><C-w>k
-    :tnoremap <A-l> <C-\><C-N><C-w>l
-    :inoremap <A-h> <C-\><C-N><C-w>h
-    :inoremap <A-j> <C-\><C-N><C-w>j
-    :inoremap <A-k> <C-\><C-N><C-w>k
-    :inoremap <A-l> <C-\><C-N><C-w>l
-    :nnoremap <A-h> <C-w>h
-    :nnoremap <A-j> <C-w>j
-    :nnoremap <A-k> <C-w>k
-    :nnoremap <A-l> <C-w>l
+tnoremap <A-h> <C-\><C-N><C-w>h
+tnoremap <A-j> <C-\><C-N><C-w>j
+tnoremap <A-k> <C-\><C-N><C-w>k
+tnoremap <A-l> <C-\><C-N><C-w>l
+inoremap <A-h> <C-\><C-N><C-w>h
+inoremap <A-j> <C-\><C-N><C-w>j
+inoremap <A-k> <C-\><C-N><C-w>k
+inoremap <A-l> <C-\><C-N><C-w>l
+nnoremap <A-h> <C-w>h
+nnoremap <A-j> <C-w>j
+nnoremap <A-k> <C-w>k
+nnoremap <A-l> <C-w>l
 
 "move around buffer
 nnoremap <leader>j :bp<CR>
@@ -327,6 +319,8 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gh :CocCommand clangd.switchSourceHeader<CR>
+nmap <silent> cr <Plug>(coc-refactor)
 "
 "" Common fixes
 "nnoremap <silent>gb :BB<Cr>
@@ -370,15 +364,34 @@ imap kj <Esc>
 "Save filename to cliboard
 nmap <silent> <F9> :let @+ = expand("%:p")<CR>
 
-map <leader>s :call FormatFile()<cr>
-
-
-nnoremap <Leader>x :Rg <C-R><C-W><CR>
-
+" file formating with clang-format
 function FormatFile()
   let l:lines="all"
   pyf /usr/share/clang/clang-format.py
 endfunction
+
+map <leader>s :call FormatFile()<cr>
+
+
+if has('python')
+ map <C-S> :pyf /usr/share/clang/clang-format.py<cr>
+ imap <C-S> <c-o>:pyf /usr/share/clang/clang-format.py<cr>
+elseif has('python3')
+ map <C-S> :py3f /usr/share/clang/clang-format.py<cr>
+imap <C-S> <c-o>:py3f /usr/share/clang/clang-format.py<cr>
+endif
+
+"clear search highlight
+nnoremap <leader>h :noh<cr>
+
+"Map caps lock to esc key but clear behavior when exiting vim
+au VimEnter * silent! !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
+au VimLeave * silent! !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock'
+
+"Search word under cursor with ripgrep
+nnoremap <Leader>x :Rg <C-R><C-W><CR>
+
+
 
 function! SwitchColorScheme()
   " if g:colors_name == "gruvbox"
@@ -405,7 +418,7 @@ map <silent> <F8> :call SwitchColorScheme()<CR>
 
 hi debugPC term=reverse ctermbg=darkblue guibg=darkblue
 hi debugBreakpoint term=reverse ctermbg=red guibg=red
-
+hi DiffAdd      term=reverse    ctermfg=NONE          ctermbg=red
 
 
 
@@ -432,50 +445,54 @@ set makeprg=./launchtest.sh\ %
 
 noremap <silent> <F12> :silent CocRestart<CR>
 
-" let g:qs_buftype_blacklist = ['terminal', 'nofile']
+" Make coc_fzf_preview look like other fzf windows 
+" coc_fzf_preview allows to see coc lists in fzf (ex:symbol references)
+let g:coc_fzf_preview = ''
+let g:coc_fzf_opts = []
+
+" Catch cmocka errors
+"[  ERROR   ] --- /home/alexandre/xxx.c:36: error: No mock calls expected but called() was invoked in __wrap_hsm_application_publish_message
+set errorformat^=\[\ \ ERROR\ \ \ \]\ ---\ %f:%l:%m
+
+" ***************************UNEXPECTED MESSAGE RECEIVED***************************[  ERROR   ] --- false
+" [   LINE   ] --- /home/alexandre/kolibree/xxx.c:24: error: Failure!
+"lines are set in backward order because we want to prepend this (^=) to
+"existing errorformat
+set errorformat^=%Z\[\ \ \ LINE\ \ \ \]\ ---\ %f:%l:\ %m
+set errorformat^=%E%.%#\[\ \ ERROR\ \ \ \]\ ---\ false
 
 
-"To map <Esc> to exit terminal-mode: while still exiting fzf with ESC
-" tnoremap <Esc> <C-\><C-n>
+"for debug
+function! ToggleVerbose()
+    if !&verbose
+        set verbosefile=~/.log/vim/verbose.log
+        set verbose=15
+    else
+        set verbose=0
+        set verbosefile=
+    endif
+endfunction
 
-" function! OnFZFOpen() abort
-"   tnoremap <Esc> <c-c>
-"   startinsert
-"   autocmd BufLeave <buffer> tnoremap <Esc> <C-\><C-n>
-" endfunction
+
+let g:codi#interpreters = {
+\ 'python3': {
+       \ 'bin': 'python3',
+       \ 'prompt': '^\(>>>\|\.\.\.\) ',
+       \ },
+   \ }
+
+" add :Qargs command to copy quickfix list to arglist
+command! -nargs=0 -bar Qargs execute 'args' QuickfixFilenames()
+function! QuickfixFilenames()
+  let buffer_numbers = {}
+  for quickfix_item in getqflist()
+    let buffer_numbers[quickfix_item['bufnr']] = bufname(quickfix_item['bufnr'])
+  endfor
+  return join(map(values(buffer_numbers), 'fnameescape(v:val)'))
+endfunction
 
 
-" Enables UI styles suitable for terminals etc
-" function! EnableCleanUI() abort
-"   setlocal listchars=
-"     \ nonumber
-"     \ norelativenumber
-"     \ nowrap
-"     \ winfixwidth
-"     \ laststatus=0
-"     \ noshowmode
-"     \ noruler
-"     \ scl=no
-"     \ colorcolumn=
-"   autocmd BufLeave <buffer> set laststatus=2 showmode ruler
-" endfunction
-
-" Auto Commands {{{
-" augroup General
-"   autocmd!
-"   autocmd! FileType fzf call OnFZFOpen()
-" augroup END
-"
-"" CMake Parser : evite l'ouverture des fichiers buggés mais enleve tout saut
-"court meme les bons
-" Call stack entries
-" let &efm = ' %#%f:%l %#(%m)'
-" " Start of multi-line error
-" let &efm .= ',%E' . 'CMake Error at %f:%l (message):'
-" " End of multi-line error
-" let &efm .= ',%Z' . 'Call Stack (most recent call first):'
-" " Continuation is message
-" let &efm .= ',%C' . ' %m'
-
-" set errorformat+=%D%*\\a:\ Entering\ directory\ '%f'
-" set errorformat+=%X%*\\a:\ Leaving\ directory\ '%f'
+autocmd VimEnter * new
+autocmd VimEnter * terminal ./watch_compile_command.sh
+autocmd VimEnter * set nobuflisted
+autocmd VimEnter * hide
