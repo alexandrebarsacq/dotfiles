@@ -73,8 +73,14 @@ call plug#begin('~/.vim/bundle')
 
     Plug 'justinmk/vim-sneak'
 
+    Plug 'chrisbra/csv.vim'
+
 
 call plug#end()
+
+
+
+let g:python3_host_prog = '/usr/bin/python3.8'
 
 "Autoinstall plugin manager if not present
 " See https://github.com/junegunn/vim-plug/wiki/faq
@@ -496,3 +502,123 @@ autocmd VimEnter * new
 autocmd VimEnter * terminal ./watch_compile_command.sh
 autocmd VimEnter * set nobuflisted
 autocmd VimEnter * hide
+
+
+" :[range]SortGroup[!] [n|f|o|b|x] /{pattern}/
+" e.g. :SortGroup /^header/
+" e.g. :SortGroup n /^header/
+" See :h :sort for details
+
+function! s:sort_by_header(bang, pat) range
+  let pat = a:pat
+  let opts = ""
+  if pat =~ '^\s*[nfxbo]\s'
+    let opts = matchstr(pat, '^\s*\zs[nfxbo]')
+    let pat = matchstr(pat, '^\s*[nfxbo]\s*\zs.*')
+  endif
+  let pat = substitute(pat, '^\s*', '', '')
+  let pat = substitute(pat, '\s*$', '', '')
+  let sep = '/'
+  if len(pat) > 0 && pat[0] == matchstr(pat, '.$') && pat[0] =~ '\W'
+    let [sep, pat] = [pat[0], pat[1:-2]]
+  endif
+  if pat == ''
+    let pat = @/
+  endif
+
+  let ranges = []
+  execute a:firstline . ',' . a:lastline . 'g' . sep . pat . sep . 'call add(ranges, line("."))'
+
+  let converters = {
+        \ 'n': {s-> str2nr(matchstr(s, '-\?\d\+.*'))},
+        \ 'x': {s-> str2nr(matchstr(s, '-\?\%(0[xX]\)\?\x\+.*'), 16)},
+        \ 'o': {s-> str2nr(matchstr(s, '-\?\%(0\)\?\x\+.*'), 8)},
+        \ 'b': {s-> str2nr(matchstr(s, '-\?\%(0[bB]\)\?\x\+.*'), 2)},
+        \ 'f': {s-> str2float(matchstr(s, '-\?\d\+.*'))},
+        \ }
+  let arr = []
+  for i in range(len(ranges))
+    let end = max([get(ranges, i+1, a:lastline+1) - 1, ranges[i]])
+    let line = getline(ranges[i])
+    let d = {}
+    let d.key = call(get(converters, opts, {s->s}), [strpart(line, match(line, pat))])
+    let d.group = getline(ranges[i], end)
+    call add(arr, d)
+  endfor
+  call sort(arr, {a,b -> a.key == b.key ? 0 : (a.key < b.key ? -1 : 1)})
+  if a:bang
+    call reverse(arr)
+  endif
+  let lines = []
+  call map(arr, 'extend(lines, v:val.group)')
+  let start = max([a:firstline, get(ranges, 0, 0)])
+  call setline(start, lines)
+  call setpos("'[", start)
+  call setpos("']", start+len(lines)-1)
+endfunction
+command! -range=% -bang -nargs=+ SortGroup <line1>,<line2>call <SID>sort_by_header(<bang>0, <q-args>)
+
+
+" Call this while selecting a commit to have a quickfix list of all modified
+" files
+command! DiffHistory call s:view_git_history()
+
+function! s:view_git_history() abort
+  " Git difftool --name-only ! !^@
+  Git difftool --name-only build/star-research
+  call s:diff_current_quickfix_entry()
+  " Bind <CR> for current quickfix window to properly set up diff split layout after selecting an item
+  " There's probably a better way to map this without changing the window
+  copen
+  nnoremap <buffer> <CR> <CR><BAR>:call <sid>diff_current_quickfix_entry()<CR>
+  wincmd p
+endfunction
+
+function s:diff_current_quickfix_entry() abort
+  " Cleanup windows
+  for window in getwininfo()
+    if window.winnr !=? winnr() && bufname(window.bufnr) =~? '^fugitive:'
+      exe 'bdelete' window.bufnr
+    endif
+  endfor
+  cc
+  call s:add_mappings()
+  let qf = getqflist({'context': 0, 'idx': 0})
+  if get(qf, 'idx') && type(get(qf, 'context')) == type({}) && type(get(qf.context, 'items')) == type([])
+    let diff = get(qf.context.items[qf.idx - 1], 'diff', [])
+    echom string(reverse(range(len(diff))))
+    for i in reverse(range(len(diff)))
+      exe (i ? 'leftabove' : 'rightbelow') 'vert diffsplit' fnameescape(diff[i].filename)
+      call s:add_mappings()
+    endfor
+  endif
+endfunction
+
+function! s:add_mappings() abort
+  nnoremap <buffer>]q :cnext <BAR> :call <sid>diff_current_quickfix_entry()<CR>
+  nnoremap <buffer>[q :cprevious <BAR> :call <sid>diff_current_quickfix_entry()<CR>
+  " Reset quickfix height. Sometimes it messes up after selecting another item
+  11copen
+  wincmd p
+endfunction
+
+
+function! HighlightRepeats() range
+  let lineCounts = {}
+  let lineNum = a:firstline
+  while lineNum <= a:lastline
+    let lineText = getline(lineNum)
+    if lineText != ""
+      let lineCounts[lineText] = (has_key(lineCounts, lineText) ? lineCounts[lineText] : 0) + 1
+    endif
+    let lineNum = lineNum + 1
+  endwhile
+  exe 'syn clear Repeat'
+  for lineText in keys(lineCounts)
+    if lineCounts[lineText] >= 2
+      exe 'syn match Repeat "^' . escape(lineText, '".\^$*[]') . '$"'
+    endif
+  endfor
+endfunction
+
+command! -range=% HighlightRepeats <line1>,<line2>call HighlightRepeats()
