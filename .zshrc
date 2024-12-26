@@ -104,6 +104,9 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 alias zshconfig="nvim ~/.zshrc"
 alias ohmyzsh="nvim ~/.oh-my-zsh"
+alias tc="task context"
+alias ta="task add"
+alias shutdown='sudo shutdown'
 
 setopt hist_ignore_dups # Don't save multiple instances of a command when run in succession
 
@@ -163,8 +166,10 @@ export  PATH="$PATH:/home/alexandre/.local/bin"
 #bat (cat replacement) theme selection
 export BAT_THEME="OneHalfDark"
 
+#for tmux
+alias ssh='TERM=xterm-256color ssh'
 
 #Kolibree dev
-source ~/Documents/PROJECTS/KOLIBREE/code/set_kolibree_env
+# source ~/Documents/PROJECTS/KOLIBREE/code/set_kolibree_env
 #uncomment for profiling startup time of zsh (and see top of file)
 # zprof 
