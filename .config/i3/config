@@ -198,8 +198,8 @@ bindsym Mod1+Tab workspace back_and_forth
 bindsym Control+Print exec --no-startup-id gnome-screenshot -i
 
 #Brightness control for laptop dell 7490
-bindsym XF86MonBrightnessDown exec "xbacklight -dec 5"
-bindsym XF86MonBrightnessUp exec "xbacklight -inc 5"
+bindsym XF86MonBrightnessDown exec "/home/alexandre/.config/i3/backlight_decrease.sh"
+bindsym XF86MonBrightnessUp exec "/home/alexandre/.config/i3/backlight_increase.sh"
 
 #Sound control for laptop dell 7490
 bindsym XF86AudioRaiseVolume exec "amixer set Master 2%+;killall -USR1 i3status"
@@ -234,5 +234,6 @@ set $alacritty_colorscheme /home/alexandre/.local/bin/alacritty-colorscheme
 # Toggle between light and dark colorscheme
 bindsym $mod+F8 exec $alacritty_colorscheme -t  /home/alexandre/AUR/base16-alacritty/colors/base16-oceanicnext-256.yml /home/alexandre/AUR/base16-alacritty/colors/base16-gruvbox-light-soft-256.yml
 
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 #Programs at startup
 exec --no-startup-id ~/.config/i3/launchprograms.sh
