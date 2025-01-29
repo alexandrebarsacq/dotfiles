@@ -30,6 +30,13 @@ workspaces=(
 "1" "2" "9"
 )
 
+# Check if wmctrl is installed
+if ! command -v wmctrl &> /dev/null
+then
+    echo "wmctrl is not installed. Exiting..."
+    exit 1
+fi
+
 # counter of opened windows
 owNB=$(wmctrl -l | wc -l) # Get number of actual opened windows
 startOwNB=$owNB

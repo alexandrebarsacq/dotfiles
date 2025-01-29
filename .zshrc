@@ -75,7 +75,7 @@ ZSH_THEME="mytheme"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 # Note : zsh-autosuggestions requires further install see https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md#oh-my-zsh
-plugins=(git taskwarrior  zsh-autosuggestions)
+plugins=(git z zsh-autosuggestions poetry)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -84,8 +84,11 @@ source $ZSH/oh-my-zsh.sh
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
+#
 # export LANG=en_US.UTF-8
-
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+export LC_CTYPE=en_US.UTF-8
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
 #   export EDITOR='vim'
@@ -169,7 +172,21 @@ export BAT_THEME="OneHalfDark"
 #for tmux
 alias ssh='TERM=xterm-256color ssh'
 
+#for adb and co
+export PATH=$PATH:/home/alexandre/platform-tools
+
 #Kolibree dev
 # source ~/Documents/PROJECTS/KOLIBREE/code/set_kolibree_env
 #uncomment for profiling startup time of zsh (and see top of file)
 # zprof 
+
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+usbswitch() {
+  poetry run -C /home/alexandre/code/usb-switcher-test/ -P /home/alexandre/code/usb-switcher-test python ~/code/usb-switcher-test/usb_switcher_test/main.py "$@"
+}
+
+alias monsoon="poetry run -C /home/alexandre/code/monsoon-control/ -P /home/alexandre/code/monsoon-control python ~/code/monsoon-control/monsoon_control/main.py "
+# alias usbswitch="poetry run -C /home/alexandre/code/usb-switcher-test/ -P /home/alexandre/code/usb-switcher-test python ~/code/usb-switcher-test/usb_switcher_test/main.py "
+alias logseq="/home/alexandre/Applications/Logseq-linux-x64-0.10.9_dcf8b41b9db5c9fe9f84938688e17f23.AppImage"
