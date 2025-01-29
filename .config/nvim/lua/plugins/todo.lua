@@ -1,4 +1,5 @@
 if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+-- https://github.com/pwntester/octo.nvim
 
 -- -- Add filename to heirline https://github.com/rebelot/heirline.nvim/blob/master/cookbook.md
 -- https://github.com/stevearc/aerial.nvim
@@ -12,3 +13,9 @@ if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 --   https://github.com/kylechui/nvim-surround
 --   https://github.com/chrisgrieser/nvim-spider
 --   https://github.com/ggandor/leap.nvim?tab=readme-ov-file
+--
+--https://github.com/Zeioth/compiler.nvim
+-- https://github.com/nvim-neotest/neotest
+-- https://github.com/Zeioth/dooku.nvim
+--
+-- https://github.com/NormalNvim/NormalNvim ??? 

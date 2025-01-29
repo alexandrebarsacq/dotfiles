@@ -60,9 +60,9 @@ return {
         -- },
         -- [<Char-00B2>] = `,
         --
-        ["²"] = { "`" },
-        ["ç"] = { "[" },
-        ["à"] = { "]" },
+        -- ["²"] = { "`" },
+        -- ["ç"] = { "[" },
+        -- ["à"] = { "]" },
 
         -- tables with just a `desc` key will be registered with which-key if it's installed
         -- this is useful for naming menus
