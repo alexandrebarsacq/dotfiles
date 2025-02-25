@@ -6,7 +6,7 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-export FZF_BASE="/home/linuxbrew/.linuxbew/opt/fzf/bin"
+# export FZF_BASE="/home/linuxbrew/.linuxbew/opt/fzf/bin"
 # Path to your oh-my-zsh installation.
 export ZSH="/home/alexandre/.oh-my-zsh"
 # Set name of the theme to load --- if set to "random", it will
@@ -127,10 +127,6 @@ export EDITOR=/usr/bin/nvim
 
 
 
-#FZF related stuff. Implies that fzf and rg were installed 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_COMMAND='rg --files'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 #Functions for brightness control in pure tty on dell 7490
 increase_backlight() {
@@ -190,3 +186,22 @@ usbswitch() {
 alias monsoon="poetry run -C /home/alexandre/code/monsoon-control/ -P /home/alexandre/code/monsoon-control python ~/code/monsoon-control/monsoon_control/main.py "
 # alias usbswitch="poetry run -C /home/alexandre/code/usb-switcher-test/ -P /home/alexandre/code/usb-switcher-test python ~/code/usb-switcher-test/usb_switcher_test/main.py "
 alias logseq="/home/alexandre/Applications/Logseq-linux-x64-0.10.9_dcf8b41b9db5c9fe9f84938688e17f23.AppImage"
+
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - bash)"
+
+#FZF related stuff. Implies that fzf and fd were installed 
+source <(fzf --zsh)
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+alias condactivate='source ~/miniconda3/bin/activate'
+
+# bun completions
+[ -s "/home/alexandre/.local/share/reflex/bun/_bun" ] && source "/home/alexandre/.local/share/reflex/bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.local/share/reflex/bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

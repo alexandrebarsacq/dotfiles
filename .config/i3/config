@@ -127,16 +127,16 @@ bindsym $mod+ccedilla workspace $ws9
 bindsym $mod+agrave workspace $ws10
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace $ws1
-bindsym $mod+Shift+eacute move container to workspace $ws2
-bindsym $mod+Shift+3 move container to workspace $ws3
-bindsym $mod+Shift+4 move container to workspace $ws4
-bindsym $mod+Shift+5 move container to workspace $ws5
-bindsym $mod+Shift+6 move container to workspace $ws6
-bindsym $mod+Shift+egrave move container to workspace $ws7
-bindsym $mod+Shift+8 move container to workspace $ws8
-bindsym $mod+Shift+ccedilla move container to workspace $ws9
-bindsym $mod+Shift+agrave move container to workspace $ws10
+bindsym $mod+shift+1 move container to workspace $ws1
+bindsym $mod+shift+eacute move container to workspace $ws2
+bindsym $mod+shift+3 move container to workspace $ws3
+bindsym $mod+shift+4 move container to workspace $ws4
+bindsym $mod+shift+5 move container to workspace $ws5
+bindsym $mod+shift+6 move container to workspace $ws6
+bindsym $mod+shift+egrave move container to workspace $ws7
+bindsym $mod+shift+8 move container to workspace $ws8
+bindsym $mod+shift+ccedilla move container to workspace $ws9
+bindsym $mod+shift+agrave move container to workspace $ws10
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
