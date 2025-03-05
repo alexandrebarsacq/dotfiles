@@ -90,11 +90,11 @@ export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export LC_CTYPE=en_US.UTF-8
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR=/home/linuxbrew/.linuxbrew/bin/nvim
+fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -123,7 +123,6 @@ alias tmux='tmux -f "$XDG_CONFIG_HOME"/tmux/tmux.conf'
 alias config='/usr/bin/git --git-dir=/home/alexandre/.cfg/ --work-tree=/home/alexandre'
 compdef config='git'
 
-export EDITOR=/usr/bin/nvim
 
 
 
@@ -205,3 +204,6 @@ alias condactivate='source ~/miniconda3/bin/activate'
 # bun
 export BUN_INSTALL="$HOME/.local/share/reflex/bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+source /home/alexandre/.config/broot/launcher/bash/br
+
