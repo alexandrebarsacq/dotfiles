@@ -24,24 +24,31 @@ include /etc/sway/config-vars.d/*
 
 ### Output configuration
 #
-# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-#
-# Example configuration:
-#
-#   output HDMI-A-1 resolution 1920x1080 position 1920,0
-#
-# You can get the names of your outputs by running: swaymsg -t get_outputs
+output * bg #040730 solid_color
 
 ### Idle configuration
-#
-# Example configuration:
-#
-# exec swayidle -w \
-#          timeout 300 'swaylock -f -c 000000' \
-#          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-#          before-sleep 'swaylock -f -c 000000'
-#
+#a nice grey
+set $lock_color 1e1e2e
+set $lock_command 'swaylock -f -c $lock_color'
+
+exec swayidle -w \
+         timeout 250 'brightnessctl -s & brightnessctl set 8%'  resume 'brightnessctl -r' \
+         timeout 300 $lock_command \
+         timeout 400 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+         before-sleep 'swaylock -f -c $lock_color'
+
+
+for_window [class=".*"] inhibit_idle fullscreen
+for_window [app_id=".*"] inhibit_idle fullscreen
+
+
+# Window-specific settings
+for_window [app_id="pavucontrol"] floating enable
+for_window [app_id="blueman-manager"] floating enable
+for_window [app_id="firefox" title="Firefox — Sharing Indicator"] floating enable
+for_window [app_id="firefox" title="Picture-in-Picture"] floating enable
+
+# Save brightness, dim after 250, reset brightness at resume
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
@@ -68,6 +75,10 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
     bindsym $mod+Return exec alacritty
     # Kill focused window
     bindsym $mod+Shift+q kill
+
+    #lock screen
+    bindsym $mod+Shift+dollar exec $lock_command
+
 
     # Start your launcher
     bindsym $mod+d exec $menu
@@ -236,20 +247,47 @@ bindsym $mod+r mode "resize"
 # Status Bar:
 #
 # Read `man 5 sway-bar` for more information about this section.
+# bar {
+#     position bottom
+#     mode hide
+#
+#     # When the status_command prints a new line to stdout, swaybar updates.
+#     # The default just shows the current date and time.
+#     status_command while date +'%Y-%m-%d %I:%M:%S %p'; do sleep 1; done
+#
+#     colors {
+#         statusline #ffffff
+#         background #323232
+#         inactive_workspace #32323200 #32323200 #5c5c5c
+#     }
+# }
+
 bar {
     position bottom
     mode hide
-
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    status_command while date +'%Y-%m-%d %I:%M:%S %p'; do sleep 1; done
-
+    # position top
+    # height 30
+    status_command while ~/.config/sway/swaybar-script.sh; do sleep 1; done
+    
     colors {
-        statusline #ffffff
-        background #323232
-        inactive_workspace #32323200 #32323200 #5c5c5c
+        background #282A36
+        statusline #F8F8F2
+        separator  #44475A
+        
+        # Workspace colors         border    background text
+        focused_workspace  #BD93F9 #6272A4   #F8F8F2
+        active_workspace   #44475A #44475A   #F8F8F2
+        inactive_workspace #282A36 #282A36   #BFBFBF
+        urgent_workspace   #FF5555 #FF5555   #F8F8F2
+        binding_mode       #FF5555 #FF5555   #F8F8F2
     }
+    
+    font pango:JetBrains Mono Nerd Font 11
+    separator_symbol " | "
+    tray_output primary
+    tray_padding 5
 }
+
 
 
 
@@ -272,4 +310,15 @@ bindsym Mod1+Tab workspace back_and_forth
 
 bindsym $mod+p move workspace to output down
 bindsym $mod+Shift+p move workspace to output left
+
+set $laptop_display 'Unknown 0xA029 0x00000000'
+set $work_external_display 'Dell Inc. DELL P2725H 2RGHD34'
+
+output $laptop_display pos 0 0 res 3840x2160
+output $work_external_display pos 0 -1080 res 1920x1080
+
+workspace 1 output $laptop_display
+workspace 5 output $laptop_display
+workspace 1 output $work_external_display
+
 include /etc/sway/config.d/*
