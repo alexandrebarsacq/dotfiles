@@ -48,7 +48,7 @@ ZSH_THEME="mytheme"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # COMPLETION_WAITING_DOTS="true"
@@ -128,18 +128,18 @@ compdef config='git'
 
 
 #Functions for brightness control in pure tty on dell 7490
-increase_backlight() {
-    xbacklight -d :0 -inc 10
-}
-zle -N increase_backlight_widget increase_backlight
-bindkey "^[[24~" increase_backlight_widget
-
-decrease_backlight() {
-    xbacklight -d :0 -dec 10
-}
-zle -N decrease_backlight_widget decrease_backlight
-bindkey "^[[23~" decrease_backlight_widget
-
+# increase_backlight() {
+#     xbacklight -d :0 -inc 10
+# }
+# zle -N increase_backlight_widget increase_backlight
+# bindkey "^[[24~" increase_backlight_widget
+#
+# decrease_backlight() {
+#     xbacklight -d :0 -dec 10
+# }
+# zle -N decrease_backlight_widget decrease_backlight
+# bindkey "^[[23~" decrease_backlight_widget
+#
 #Lazy NVM loading : otherwise zsh is slow to start 
 declare -a NODE_GLOBALS=(`find ~/.config/nvm/versions/node -maxdepth 3 -type l -wholename '*/bin/*' | xargs -n1 basename | sort | uniq`)
 
@@ -184,7 +184,7 @@ usbswitch() {
 
 alias monsoon="poetry run -C /home/alexandre/code/monsoon-control/ -P /home/alexandre/code/monsoon-control python ~/code/monsoon-control/monsoon_control/main.py "
 # alias usbswitch="poetry run -C /home/alexandre/code/usb-switcher-test/ -P /home/alexandre/code/usb-switcher-test python ~/code/usb-switcher-test/usb_switcher_test/main.py "
-alias logseq="/home/alexandre/Applications/Logseq-linux-x64-0.10.9_dcf8b41b9db5c9fe9f84938688e17f23.AppImage"
+# alias logseq="/home/alexandre/Applications/Logseq-linux-x64-0.10.9_dcf8b41b9db5c9fe9f84938688e17f23.AppImage"
 
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
@@ -197,6 +197,7 @@ export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --e
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 alias condactivate='source ~/miniconda3/bin/activate'
+alias gwu='git checkout master && git pull && git checkout work && git reset --hard master'
 
 # bun completions
 [ -s "/home/alexandre/.local/share/reflex/bun/_bun" ] && source "/home/alexandre/.local/share/reflex/bun/_bun"
@@ -204,6 +205,8 @@ alias condactivate='source ~/miniconda3/bin/activate'
 # bun
 export BUN_INSTALL="$HOME/.local/share/reflex/bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/scripts/.local/bin/:$PATH"
 
 source /home/alexandre/.config/broot/launcher/bash/br
 
